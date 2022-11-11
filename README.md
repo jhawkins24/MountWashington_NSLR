@@ -5,4 +5,4 @@ Data analyzed were from the Mount Washington Observatory's Regional Mesonet stat
 
 NSLRs were calculated for each meteorological season (DJF, MAM, JJA, SON) for daily maximum, minimum, and mean temperatures from the Mesonet sites.
 
-Once calculated, seasonal NSLRs were compared between seasons and to the global average environmental lapse rate
+Once calculated, seasonal NSLRs were compared between seasons and to the global average environmental lapse rate for teach temperature type.
