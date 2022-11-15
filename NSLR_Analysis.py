@@ -237,6 +237,8 @@ SeasonalNSLR_pivot.plot(kind = 'bar', yerr = SeasonalSEM_pivot, capsize = 3,
                         color = {'Tmax' : '#31688e', 'Tavg' : '#b5de2b', 'Tmin': '#440154'},
                         alpha = 0.8)
 
+# Add single dashed line at -6.5 to show ELR
+plt.hlines(-6.5, -.3, 3.3, '#d44842', linestyles = (0, (5, 10)), label = 'ELR')
 
 #Flip y axis
 plt.ylim(0, -9) 
@@ -251,8 +253,9 @@ plt.title('Seasonal NSLRs', fontweight = 'bold')
 l = plt.legend()
 l.set_title('')
 
+
 # Export figure
-# plt.savefig('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Figures/SeasonalNSLR2021.png', dpi = 300)
+# plt.savefig('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Figures/SeasonalNSLR2021_ELR.png', dpi = 300)
 
 #%% Create df with monthly mean NSLRs as above for seasonal NSLRs
 
@@ -289,36 +292,36 @@ AvgMonthlyNSLR = AvgMonthlyNSLR.sort_values('Month')
 
 
 # Plot the data as a line graph
-plot = sns.lineplot(x = 'Month', y = 'nslr', data = AvgMonthlyNSLR, 
+plot2 = sns.lineplot(x = 'Month', y = 'nslr', data = AvgMonthlyNSLR, 
                     hue = 'Ttype', palette = ['#31688e', '#b5de2b', '#440154'])
 
 
 # Shade seasonal periods
-plot.fill_between(['Dec', 'Feb'], y1 = -9, y2 = -3, alpha = 0.2, color = 'gray')
+plot2.fill_between(['Dec', 'Feb'], y1 = -9, y2 = -3, alpha = 0.2, color = 'gray')
 
-plot.fill_between(['Mar', 'May'], y1 = -9, y2 = -3, alpha = 0.5, color = 'gray')
+plot2.fill_between(['Mar', 'May'], y1 = -9, y2 = -3, alpha = 0.5, color = 'gray')
 
-plot.fill_between(['Jun', 'Aug'], y1 = -9, y2 = -3, alpha = 0.2, color = 'gray')
+plot2.fill_between(['Jun', 'Aug'], y1 = -9, y2 = -3, alpha = 0.2, color = 'gray')
 
-plot.fill_between(['Sep', 'Nov'], y1 = -9, y2 = -3, alpha = 0.5, color = 'gray')
+plot2.fill_between(['Sep', 'Nov'], y1 = -9, y2 = -3, alpha = 0.5, color = 'gray')
 
 
 # Plot points for monthly data
-plot = sns.scatterplot(x = 'Month', y = 'nslr', data = AvgMonthlyNSLR, 
+plot2 = sns.scatterplot(x = 'Month', y = 'nslr', data = AvgMonthlyNSLR, 
                 color = 'black')
 
 # Add single dashed line at -6.5 to show ELR
-plot = sns.lineplot(x = 'Month', y = -6.5, data = AvgMonthlyNSLR, 
+plot2 = sns.lineplot(x = 'Month', y = -6.5, data = AvgMonthlyNSLR, 
                     color = '#d44842', linestyle = (0, (5, 20)), linewidth = .8, label = 'ELR')
 
 
 # Add labels
-plot.set_xlabel('Month')
-plot.set_ylabel('Near-Surface Lapse Rate (°C/Km)')
-plot.set_title('Monthly NSLR', fontweight = 'bold')
+plot2.set_xlabel('Month')
+plot2.set_ylabel('Near-Surface Lapse Rate (°C/Km)')
+plot2.set_title('Monthly NSLR', fontweight = 'bold')
 
 # Flip the Y axis
-plot.invert_yaxis()
+plot2.invert_yaxis()
 
 # Export figure
 # plt.savefig('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Figures/NSLR_Monthly2021_Shaded.png', dpi = 300)
@@ -505,20 +508,24 @@ ELRStat['sig'] = ELRStat.apply(lambda row: is_sig(row), axis = 1)
 ELRStat = ELRStat.round(5)
 
 
-#%% Report Summary Data Frames
+#%% Report Summary Data Frames, save to system
 
 # Seasonal Near-Surface Lapse Rates
 print('Seasonal NSLRs')
 print(AvgSeasonalNSLR)
+AvgSeasonalNSLR.to_excel('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Results/SeasonalNSLR.xlsx')
 
 # Monthly Near-Surface Lapse Rates
 print('\nMonthly NSLRs')
 print(AvgMonthlyNSLR)
+AvgMonthlyNSLR.to_excel('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Results/MonthlyNSLR.xlsx')
 
 # Statistical difference between seasons
 print('\nSeasonal Statistical Differences')
 print(StatOutput)
+StatOutput.to_excel('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Results/SeasonalStatDif.xlsx')
 
 # Statistical difference from ELRs
 print('\nSeasonal Statistical Differences from ELR')
 print(ELRStat)
+ELRStat.to_excel('S:/Summit/Interns/JacksonHawkins/NSLR_Project/Results/StatDifFromELR.xlsx')
